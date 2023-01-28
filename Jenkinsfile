@@ -1,6 +1,6 @@
 pipeline{
   agent any
-
+  //CI - integração continua
   stages {
     stage('Build Docker Image'){
       steps{
@@ -17,6 +17,14 @@ pipeline{
             dockerapp.push('latest')
             dockerapp.push("${env.BUILD_ID}")
           }
+        }
+      }
+    }
+
+    stage('Deploy Kubernets'){
+      steps{
+        withKubeconfig([credentialsId: 'kubeconfig']){
+          sh 'kubectl apply -f ./k8s/deployment.yaml'
         }
       }
     }
