@@ -21,9 +21,20 @@ pipeline{
       }
     }
 
+    stage('Auth gcloud and download kubeconfig'){
+      steps{
+        withCredentials([credentialsId: 'gcpauth']){
+          sh '''
+            gcloud auth activate-service-account --key-file="$GCPAUTH"
+            gcloud container clusters get-credentials k8s --region us-central1 --project poised-octane-375919
+          '''
+        }
+      }
+    }
+
     stage('Deploy Kubernets'){
       steps{
-        withKubeConfig([credentialsId: 'kubeconfig']){
+        withKubeConfig(file([credentialsId: 'kubeconfig']), ){
           sh 'kubectl apply -f ./k8s/deployment.yaml'
         }
       }
