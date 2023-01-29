@@ -26,7 +26,7 @@ pipeline{
         withCredentials([file(credentialsId: 'gcpauth', variable: 'GCPAUTH')] ,){
           sh '''
             gcloud auth activate-service-account --key-file="$GCPAUTH"
-            gcloud container clusters get-credentials k8s --region us-central1 --project poised-octane-375919
+            gcloud container clusters get-credentials k8s --region us-central1 --project jornada-376212
           '''
         }
       }
