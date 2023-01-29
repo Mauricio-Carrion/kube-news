@@ -25,7 +25,10 @@ pipeline{
       steps{
         withCredentials([file(credentialsId: 'gcpauth', variable: 'GCPAUTH')] ,){
           sh '''
+            gcloud components install gke-gcloud-auth-plugin
+            
             gcloud auth activate-service-account --key-file="$GCPAUTH"
+
             gcloud container clusters get-credentials k8s --region us-central1 --project jornada-376212
           '''
         }
