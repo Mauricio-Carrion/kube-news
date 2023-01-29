@@ -24,10 +24,10 @@ pipeline{
     stage('Auth gcloud and download kubeconfig'){
       steps{
         withCredentials([file(credentialsId: 'gcpauth', variable: 'GCPAUTH')] ,){
-          sh '''            
+          sh '''
             gcloud auth activate-service-account --key-file="$GCPAUTH"
-
             gcloud container clusters get-credentials k8s --region us-central1 --project jornada-376212
+          
           '''
         }
       }
@@ -38,7 +38,7 @@ pipeline{
         tag_version = "${env.BUILD_ID}"
       }
       steps{
-        withKubeConfig(){
+        withKubeConfig(credentialsId: 'kubeconfig'){
           sh 'sed -i "s/{{TAG}}/$tag_version/g" ./k8s/deployment.yaml'
           sh 'kubectl apply -f ./k8s/deployment.yaml'
         }
