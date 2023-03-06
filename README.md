@@ -10,6 +10,6 @@ DB_DATABASE => Nome do banco de dados que vai ser usado.
 
 DB_USERNAME => Usuário do banco de dados.
 
-DB_PASSWORD => Senha do usuário do banco de dados.
+DB_PASSWORD => Senha do usuário do banco de d
 
 DB_HOST => Endereço do banco de dados.
